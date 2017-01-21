@@ -10,8 +10,16 @@ class coordinate:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.angle = math.atan(float(x) / float(y))
         self.magnitude = math.sqrt(x * x + y * y)
+        if x == 0 :
+            if y > 0 : 
+                self.angle = 3.14159265358797323 / 2
+            elif y < 0 :
+                self.angle = -3.14159265358797323 / 2
+            else :
+                self.angle = 0
+        else :
+            self.angle = math.atan(y / float(x))
         # angle is in radians
 
     def findAngle(self, coord):

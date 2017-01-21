@@ -12,9 +12,13 @@ class Microphone:
         self.usb_port = usb_port
         self.coord = coord
         self.angle = coord.get_angle()
-        self.serial = serial.Serial(usb_port, 9600)
+        self.serial = ''#serial.Serial(usb_port, 9600)
         self.buffer = []
         self.dt = 0  # the difference in time between updates
+
+    def set_buffer(self, test_list):
+    # this method is for testing use only
+        self.buffer = test_list
 
     def read(self):
         """
@@ -50,3 +54,6 @@ class Microphone:
 
     def get_coord(self):
         return self.get_coord
+
+def createMic(usb_port, coord):
+    return Microphone(usb_port, coord)
