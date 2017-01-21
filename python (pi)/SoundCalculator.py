@@ -8,6 +8,7 @@ class SoundCalculator:
     def __init__(self):
         self.microphones = []  # list of microphones
         self.threshold = 300  # the threshold value
+        self.sample = [] # sampling for establishing threshold
         # self.sound_collector = []  # list that collects the loudest sound
         # from each mic
 
@@ -21,7 +22,7 @@ class SoundCalculator:
         # this is a wrapper method for creating new microphones
         self.microphones.append(Microphone(usb_port, coord))
 
-    def collect_sound(self):
+    def collect_sound(self, bool):
         sound_collector = []
         for index, mic in enumerate(self.microphones):
             sound_collector.append([])
@@ -55,15 +56,15 @@ class SoundCalculator:
 
         loudest_mic_index = self.find_highest_index(average_sound)
 
-        #if there is no loudest sound, there sound't be a buzzer
-        if loudest_mic_index == -1 :
+        # if there is no loudest sound, there sound't be a buzzer
+        if loudest_mic_index == -1:
             return -100
 
         loudest_sound = average_sound[loudest_mic_index]
         del average_sound[loudest_mic_index]
         second_loudest_mic_index = self.find_highest_index(average_sound)
-        
-        #if there is no second loudest sound, then buzz the first index
+
+        # if there is no second loudest sound, then buzz the first index
         if second_loudest_mic_index == -1:
             return self.microphones[loudest_mic_index].get_angle()
 

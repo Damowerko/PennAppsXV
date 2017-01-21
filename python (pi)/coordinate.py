@@ -11,14 +11,14 @@ class coordinate:
         self.x = x
         self.y = y
         self.magnitude = math.sqrt(x * x + y * y)
-        if x == 0 :
-            if y > 0 : 
+        if x == 0:
+            if y > 0:
                 self.angle = 3.14159265358797323 / 2
-            elif y < 0 :
+            elif y < 0:
                 self.angle = -3.14159265358797323 / 2
-            else :
+            else:
                 self.angle = 0
-        else :
+        else:
             self.angle = math.atan(y / float(x))
         # angle is in radians
 
