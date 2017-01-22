@@ -33,9 +33,9 @@ def calculate_angles(data):
         angles[1] = 2*math.pi + local_angles[1]
 
     if local_angles[1] > 0:
-        angles[0] = math.pi/2.0 + local_angles
+        angles[0] = math.pi/2.0 + local_angles[0]
     else:
-        angles[0] = 3 / 2.0 * math.pi - local_angles[1]
+        angles[0] = 3 / 2.0 * math.pi - local_angles[0]
 
     print "Local angles: ",local_angles[0], local_angles[1]
     print "Angles: ", angles[0], angles[1]
