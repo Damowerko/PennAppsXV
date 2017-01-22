@@ -2,14 +2,16 @@ import serial
 
 
 class arduino:
-	"""
-	This is the class for reading arduino serial output
-	"""
+    """
+    This is the class for reading arduino serial output
+    """
+
     def __init__(self, usb_port):
-        self.serial = serial.Serial(usb_port, 115200, bytesize = serial.EIGHTBITS)
+        self.serial = serial.Serial(
+            usb_port, 115200, bytesize=serial.EIGHTBITS)
         self.dir = None
         self.dt = None  # the difference in time between updates
-        self.microphones = [] # the microphones attached to this arduino
+        self.microphones = []  # the microphones attached to this arduino
 
     def read(self):
         """
@@ -18,5 +20,8 @@ class arduino:
         next byte is a char = dir
         last bye is end of steam = '\n'
         """
-        b = serial.readlines()
+        byte1 = self.serial.read()
+        byte2 = self.serial.read()
+        byte3 = self.serial.read()
+        dt = int(byte1, 2)
         return false
