@@ -4,7 +4,7 @@ from copy import deepcopy
 
 
 def main():
-    horizontal_arduino = hw.arduino("/dev/ttyACM0")  #TODO: specify ports
+    horizontal_arduino = hw.arduino("/dev/ttyACM0")
     vertical_arduino = hw.arduino("/dev/ttyACM1")
 
     while True:
@@ -20,8 +20,8 @@ def main():
 
 
 def calculate_angles(data):
-    h_distance = 0.58  # TODO: measure distance
-    v_distance = 0.58
+    h_distance = 0.3556  # TODO: measure distance
+    v_distance = 0.2286
 
     local_angles = [calculate_angle(data[0], h_distance), calculate_angle(data[1], v_distance)]
 
