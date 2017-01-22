@@ -20,8 +20,13 @@ class arduino:
         next byte is a char = dir
         last bye is end of steam = '\n'
         """
+	print 'listening....'
         byte1 = self.serial.read()
         byte2 = self.serial.read()
         byte3 = self.serial.read()
-        dt = int(byte1, 2)
+	byte4 = self.serial.read()
+	print (byte1)
+	print (byte2)
+	print 'integer is ' + str((ord(byte1) << 8) + ord(byte2))
+	print byte3
         return false
