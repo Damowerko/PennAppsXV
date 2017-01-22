@@ -20,5 +20,5 @@ class arduino:
         next byte is a char = dir
         last bye is end of steam = '\n'
         """
-	print 'listening....'
-	return int(self.serial.readline())
+        print 'listening....'
+        return int(self.serial.readline())
