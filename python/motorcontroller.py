@@ -21,7 +21,7 @@ def pulseMotor(PIN):
     GPIO.output(PIN, GPIO.HIGH)
     time.sleep(.2)
     GPIO.output(PIN, GPIO.LOW)
-
+    GPIO.cleanup()
 
 def pulseFrontMotor():
     pulseMotor(FRONT_PIN)
