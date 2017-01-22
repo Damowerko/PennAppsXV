@@ -9,7 +9,10 @@ test case suite for SoundCalculator.py
 
 
 def testRaspberryConnection():
-    arduino1 = arduino('/dev/ttyAMC0')
+    arduino1 = arduino('/dev/ttyACM1')
+    arduino2 = arduino('/dev/ttyACM0')
+    arduino1.read()
+    arduino2.read()
     print "success"
 
 

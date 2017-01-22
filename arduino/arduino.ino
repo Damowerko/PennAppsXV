@@ -33,7 +33,7 @@ void setup() {
 }
 
 
-#define TOLERANCE 200
+#define TOLERANCE 70
 int i = 0;
 void loop() {
     readSounds();
@@ -42,13 +42,20 @@ void loop() {
     char dir = checkLevels(minimum); //returns the speaker which detected the signal
     long initialTime = micros();
     if(dir){
-        long deltaTime = performMeasurement(dir, signalAverage+TOLERANCE/2, 3000, initialTime);
+        int deltaTime = performMeasurement(dir, signalAverage+TOLERANCE/2, 3000, initialTime);
         if(deltaTime) {
-            byte bArray[sizeof(int)+sizeof(char)*2];
+
+            if (dir == 'R'){
+                deltaTime = -deltaTime;
+            }
+
+            Serial.println(deltaTime);
+
+            /*byte bArray[sizeof(int)+sizeof(char)*2];
             bArray[0] = (int)deltaTime;
             bArray[sizeof(int)] = dir;
             bArray[sizeof(int)+sizeof(char)] = '\n';
-            Serial.write(bArray, sizeof(bArray));
+            Serial.write(bArray, sizeof(bArray));*/
         }
         delay(1000);
     } else updateAverage();

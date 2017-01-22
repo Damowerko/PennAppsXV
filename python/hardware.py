@@ -20,8 +20,7 @@ class arduino:
         next byte is a char = dir
         last bye is end of steam = '\n'
         """
-        byte1 = self.serial.read()
-        byte2 = self.serial.read()
-        byte3 = self.serial.read()
-        dt = int(byte1, 2)
-        return false
+        print 'listening....'
+        out = self.serial.readline().split('\r')[0]
+        print "Out: ", out
+        return out
