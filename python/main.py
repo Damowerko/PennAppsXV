@@ -1,11 +1,14 @@
 import hardware as hw
 import math
 from copy import deepcopy
+from Visualize import *
 
 
 def main():
     horizontal_arduino = hw.arduino("/dev/ttyACM0")
     vertical_arduino = hw.arduino("/dev/ttyACM2")
+
+    visualize = Visualize()
 
     while True:
         data = (horizontal_arduino.read(), vertical_arduino.read())
@@ -17,6 +20,7 @@ def main():
             continue
 
         angle = calculate_angles(data)
+        visualize.draw(angle)
         print angle * 180/math.pi
 
 
