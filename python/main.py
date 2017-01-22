@@ -2,13 +2,21 @@ import hardware as hw
 import math
 from copy import deepcopy
 from Visualize import *
+from time import time
 
+global horizontal_arduino
+global vertical_arduino
 
 def main():
+    global horizontal_arduino
+    global vertical_arduino
+
     horizontal_arduino = hw.arduino("/dev/ttyACM0")
     vertical_arduino = hw.arduino("/dev/ttyACM2")
 
     visualize = Visualize()
+
+    lastvibrate = time()
 
     while True:
         data = (horizontal_arduino.read(), vertical_arduino.read())
@@ -21,12 +29,16 @@ def main():
 
         angle = calculate_angles(data)
         visualize.draw(angle)
+
+        if time() - lastvibrate > 3:
+            vibrate(angle)
+            lastvibrate = time()
         print angle * 180/math.pi
 
 
 def calculate_angles(data):
-    h_distance = 0.3556  # TODO: measure distance
-    v_distance = 0.2286
+    h_distance = 0.3429  # TODO: measure distance
+    v_distance = 0.2413
 
     local_angles = [calculate_angle(data[0], h_distance), calculate_angle(data[1], v_distance)]
 
@@ -69,6 +81,41 @@ def calculate_angle(data, distance):
         return -math.pi / 2.0
     else:
         return math.asin(x)
+
+
+def vibrate(angle):
+    global horizontal_arduino
+    global vertical_arduino
+
+
+    import hardware as hw
+
+    horizontal_arduino = hw.arduino("/dev/ttyACM0")
+    vertical_arduino = hw.arduino("/dev/ttyACM2")
+
+    def write(n):
+        if n==0 or n==4:
+            vertical_arduino.write('A')
+        elif n==1:
+            vertical_arduino.write('B')
+        elif n==2:
+            horizontal_arduino.write('A')
+        elif n==3:
+            horizontal_arduino.write('B')
+
+    angle = angle + math.pi*3.0/5.0
+    angle = angle + math.pi
+    if angle > math.pi*2:
+        angle = angle - math.pi*2
+    eigth = int(4*angle/math.pi+0.49)
+
+    if (eigth % 2 == 1):
+        write((eigth+1)/2)
+        write((eigth-1)/2)
+    else:
+        write(eigth/2)
+
+
 
 if __name__ == '__main__':
     main()

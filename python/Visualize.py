@@ -4,7 +4,7 @@ import numpy as np
 class Visualize(object):
     def __init__(self):
         pygame.init()
-        self.display_size = 800
+        self.display_size = 1600
         self.screen = pygame.display.set_mode((self.display_size, self.display_size))
 
     def draw(self, theta):
@@ -12,6 +12,8 @@ class Visualize(object):
         center = np.array([[self.display_size/2], [self.display_size/2]])
 
         vector = np.array([[self.display_size/4],[0]])
+
+        theta = -theta
 
         rotMatrix = np.matrix([[np.cos(theta), -np.sin(theta)], [np.sin(theta), np.cos(theta)]])
 

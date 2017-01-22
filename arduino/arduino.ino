@@ -12,11 +12,18 @@ const unsigned char PS_128 = (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
 
 double signalAverage = 1024;
 int levels[2];
+long lastMotorTime;
+
+#define pin1 8
+#define pin2 9
 
 void setup() {
     Serial.begin(115200);
     pinMode(A0, INPUT);
     pinMode(A1, INPUT);
+
+    pinMode(pin1, OUTPUT);
+    pinMode(pin2, OUTPUT);
 
     // setup ADC
     //ADCSRA &= ~PS_16; // remove bits set by arduino lib
@@ -33,10 +40,15 @@ void setup() {
 }
 
 
-#define TOLERANCE 20
+#define TOLERANCE 25
 int i = 0;
 void loop() {
     readSounds();
+
+    if(millis() - lastMotorTime > 400){
+        digitalWrite(pin1, LOW);
+        digitalWrite(pin2, LOW);
+    }
 
     int minimum = signalAverage+TOLERANCE;
     char dir = checkLevels(minimum); //returns the speaker which detected the signal
@@ -98,4 +110,17 @@ long performMeasurement(char originalDir, int minimum, long timeout, long initia
         }
     }while(levels[pin] < minimum);
     return micros()-initialTime;
+}
+
+void serialEvent() {
+    while (Serial.available()) {
+        char inChar = (char)Serial.read();
+        if(inChar == 'A'){
+            digitalWrite(pin1, HIGH);
+        }
+        if(inChar == 'B'){
+            digitalWrite(pin2, HIGH);
+        }
+        lastMotorTime = millis();
+    }
 }

@@ -25,3 +25,9 @@ class arduino:
             out = int(line.split('\r')[0])
             return out
         return None
+
+    def write(self, data):
+        input = data
+        self.serial.write(input)
+        print "write: ", input
+        return None
