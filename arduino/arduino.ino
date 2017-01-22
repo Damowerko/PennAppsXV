@@ -33,7 +33,7 @@ void setup() {
 }
 
 
-#define TOLERANCE 70
+#define TOLERANCE 20
 int i = 0;
 void loop() {
     readSounds();

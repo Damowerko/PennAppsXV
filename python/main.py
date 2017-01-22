@@ -5,10 +5,11 @@ from copy import deepcopy
 
 def main():
     horizontal_arduino = hw.arduino("/dev/ttyACM0")
-    vertical_arduino = hw.arduino("/dev/ttyACM1")
+    vertical_arduino = hw.arduino("/dev/ttyACM2")
 
     while True:
         data = (horizontal_arduino.read(), vertical_arduino.read())
+        print data
 
         # check if any of the arduinos did not detect anything
         if data[0] is None or data[1] is None:
@@ -16,7 +17,7 @@ def main():
             continue
 
         angle = calculate_angles(data)
-        print angle
+        print angle * 180/math.pi
 
 
 def calculate_angles(data):
@@ -42,14 +43,14 @@ def calculate_angles(data):
 
     ignore_vertical = False
     if (angles[0] < math.pi and local_angles[1]<0) or (angles[0] > math.pi and local_angles[1]>0):
-        ignore_vertical = True
+        ignore_vertical = False
 
     if ignore_vertical:
         return angles[0]
 
     ave = (angles[0] + angles[1])/2.0  # average is used to calculate weights
-    w = 0.5
-    w_ave = (math.cos(ave)**2)*angles[0]*w + (math.sin(ave)**2)*angles[1]*(1-w)
+    print "average: ", ave
+    w_ave = (math.cos(ave)**2)*angles[0] + (math.sin(ave)**2)*angles[1]
     return w_ave
 
 
@@ -60,7 +61,7 @@ def calculate_angle(data, distance):
     x = (dt/1000000.0) * c / distance  # x is always positive due to arduino implementation
     if x > 1:
         return math.pi / 2.0
-    if x < 1:
+    if x < -1:
         return -math.pi / 2.0
     else:
         return math.asin(x)
