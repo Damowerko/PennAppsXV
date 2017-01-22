@@ -37,6 +37,9 @@ def calculate_angles(data):
     else:
         angles[0] = 3 / 2.0 * math.pi - local_angles[1]
 
+    print "Local angles: ",local_angles[0], local_angles[1]
+    print "Angles: ", angles[0], angles[1]
+
     ignore_vertical = False
     if (angles[0] < math.pi and local_angles[1]<0) or (angles[0] > math.pi and local_angles[1]>0):
         ignore_vertical = True
@@ -52,7 +55,7 @@ def calculate_angles(data):
 
 def calculate_angle(data, distance):
     c = 340.29
-    dt = data[0]
+    dt = data
 
     x = (dt/1000000.0) * c / distance  # x is always positive due to arduino implementation
     if x > 1:
