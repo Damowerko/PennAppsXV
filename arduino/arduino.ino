@@ -27,43 +27,36 @@ void setup() {
 
     // calibrate for ambient noise
     for(int i; i < 5000; i++){
-        readSounds(levels);
+        readSounds();
         updateAverage();
     }
-    Serial.println("---READY---\n");
 }
 
 
 #define TOLERANCE 200
-
+int i = 0;
 void loop() {
-    readSounds(levels);
+    readSounds();
 
-    int minimum = signalAverage+ TOLERANCE;
+    int minimum = signalAverage+TOLERANCE;
     char dir = checkLevels(minimum); //returns the speaker which detected the signal
+    long initialTime = micros();
     if(dir){
-        long deltaTime = performMeasurement(dir, minimum, 1000, micros());
+        long deltaTime = performMeasurement(dir, signalAverage+TOLERANCE/2, 3000, initialTime);
         if(deltaTime) {
-
-            Serial.println("Measurement Taken!");
-            Serial.print(levels[0]);
-            Serial.print(", ");
-            Serial.print(levels[1]);
-            Serial.print("\t");
-            Serial.print(dir);
-            Serial.print(", ");
-            Serial.print(deltaTime); //left-right t
-            Serial.print("\t");
-            Serial.println(asin(deltaTime*347*0.5/(1000000.0*0.5842)));
+            byte bArray[sizeof(int)+sizeof(char)*2];
+            bArray[0] = (int)deltaTime;
+            bArray[sizeof(int)] = dir;
+            bArray[sizeof(int)+sizeof(char)] = '\n';
+            Serial.write(bArray, sizeof(bArray));
         }
         delay(1000);
     } else updateAverage();
-    //Serial.println(micros() - time);
 }
 
 /// Reads the signals from the ADC.
 /// \return pointer to an int array length 2
-void readSounds(int *levels){
+void readSounds(){
     levels[0] = analogRead(0);
     levels[1] = analogRead(1);
 }
@@ -79,21 +72,23 @@ double _updateAverage(int level, double average){
 }
 
 char checkLevels(int minimum){
-    if(levels[0] > minimum) return 'L';
-    if(levels[1] > minimum) return 'R';
+    if(levels[0] > minimum || levels[1] > minimum){
+        if(levels[0] > levels[1]) return 'L';
+        else return 'R';
+    }
     return 0;
 }
 
 long performMeasurement(char originalDir, int minimum, long timeout, long initialTime){
     // pick the appropriate pin for measurement
-    int pin = 1;
+    uint8_t pin = 1;
     if(originalDir == 'R') pin = 0;
 
-    while(levels[pin] < minimum ){
+    do{
         levels[pin] = analogRead(pin);
-        if(micros()-initialTime < timeout){
+        if(micros()-initialTime > timeout){
             return 0;
         }
-    }
+    }while(levels[pin] < minimum);
     return micros()-initialTime;
 }

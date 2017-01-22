@@ -5,7 +5,7 @@
 #ifndef ARDUINO_ARDUINO_H
 #define ARDUINO_ARDUINO_H
 
-void readSounds(int* levels);
+void readSounds();
 void updateAverage();
 double _updateAverage(int level, int average);
 
