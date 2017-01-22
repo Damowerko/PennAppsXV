@@ -23,5 +23,6 @@ class arduino:
         line = self.serial.readline()
         if line != '':
             out = int(line.split('\r')[0])
-            return out
+            if abs(out) != 36 or abs(out) != 40:
+                return out
         return None
