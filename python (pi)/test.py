@@ -28,6 +28,7 @@ def test0buffer():
     assert(angle == -100)
     print "test0buffer passed"
 
+
 def testUnderThreshold():
     microphones = getMicrophones()
     calc = SoundCalculator()
@@ -40,6 +41,7 @@ def testUnderThreshold():
     angle = calc.findLoudestAngle()
     assert(angle == -100)
     print "testUnderThreshold passed"
+
 
 def testOneMicAboveThreshold():
     microphones = getMicrophones()
@@ -54,6 +56,7 @@ def testOneMicAboveThreshold():
     assert(angle == math.radians(0))
     print "testOneMicAboveThreshold passed"
 
+
 def testOneMicAboveThreshold2():
     microphones = getMicrophones()
     calc = SoundCalculator()
@@ -66,6 +69,7 @@ def testOneMicAboveThreshold2():
     angle = calc.findLoudestAngle()
     assert(math.fabs(angle - math.radians(90)) < 0.00001)
     print "testOneMicAboveThreshold2 passed"
+
 
 def testTwoMicsAboveThreshold():
     microphones = getMicrophones()
@@ -80,6 +84,7 @@ def testTwoMicsAboveThreshold():
     assert(math.fabs(angle - math.radians(45)) < 0.00001)
     print "testTwoMicsAboveThreshold passed"
 
+
 def testTwoMicsAboveThreshold2():
     microphones = getMicrophones()
     calc = SoundCalculator()
@@ -92,6 +97,7 @@ def testTwoMicsAboveThreshold2():
     angle = calc.findLoudestAngle()
     assert(math.fabs(angle - math.radians(-45)) < 0.00001)
     print "testTwoMicsAboveThreshold2 passed"
+
 
 def main():
     test0buffer()
