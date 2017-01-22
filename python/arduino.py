@@ -6,9 +6,9 @@ class arduino:
 	This is the class for reading arduino serial output
 	"""
     def __init__(self, usb_port):
-        self.serial = serial.Serial(usb_port, 9600)
-        self.dir = 'N'
-        self.dt = 0  # the difference in time between updates
+        self.serial = serial.Serial(usb_port, 115200)
+        self.dir = None
+        self.dt = None  # the difference in time between updates
         self.microphones = [] # the microphones attached to this arduino
 
     def read(self):
