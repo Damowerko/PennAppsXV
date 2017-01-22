@@ -21,4 +21,6 @@ class arduino:
         last bye is end of steam = '\n'
         """
         print 'listening....'
-        return int(self.serial.readline())
+        out = self.serial.readline().split('\r')[0]
+        print "Out: ", out
+        return out
