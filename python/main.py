@@ -30,7 +30,7 @@ def main():
         angle = calculate_angles(data)
         visualize.draw(angle)
 
-        if time() - lastvibrate > 3:
+        if time() - lastvibrate > 1.5:
             vibrate(angle)
             lastvibrate = time()
         print angle * 180/math.pi

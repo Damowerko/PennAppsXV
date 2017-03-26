@@ -13,11 +13,11 @@ class Visualize(object):
 
         vector = np.array([[self.display_size/4],[0]])
 
-        theta = -theta
-
         rotMatrix = np.matrix([[np.cos(theta), -np.sin(theta)], [np.sin(theta), np.cos(theta)]])
 
         position = rotMatrix*vector
+        reflection = np.matrix([[-1,0],[0,1]])
+        position = reflection*position
 
         pygame.draw.circle(self.screen, (100,100,255), center-position, 20, 0)
         pygame.display.update()
